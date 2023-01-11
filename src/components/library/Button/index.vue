@@ -3,18 +3,20 @@
     <button class="button" :class="{ [`button--${variant}`]: variant }" :disabled="disabled || loading">
       <div class="button-content-wrapper">
         <div v-if="leftIcon" class="button-icon-container">
-          <img src="@/assets/Icons/mountLists.svg" alt="Ícone" class="button-icon" />
+          <!-- <img src="@/assets/Icons/mountLists.svg" alt="Ícone" class="button-icon" /> -->
         </div>
 
-        <span v-if="!loading" class="button-label-content" :class="{ [`button--${variant}`]: variant }">{{ label }}</span>
+        <span v-if="!loading" class="button-label-content" :class="{ [`button-label-content--${variant}`]: variant }">
+          <slot name="label"> {{ label }} </slot>
+        </span>
 
         <div v-if="rightIcon" class="button-icon-container">
-          <img src="@/assets/Icons/mountLists.svg" alt="Ícone" class="button-icon" />
+          <!-- <img src="@/assets/Icons/mountLists.svg" alt="Ícone" class="button-icon" /> -->
         </div>
 
-        <div v-if="loading">
+        <!-- <div v-if="loading">
           <q-circular-progress indeterminate size="20px" color="yellow-12" />
-        </div>
+        </div> -->
       </div>
     </button>
   </div>
@@ -34,7 +36,7 @@ export default defineComponent({
     height: { type: String, default: '42px' },
     label: { type: String, default: '', required: true },
     variant: { type: String as PropType<'primary' | 'secondary'>, default: 'primary' },
-    width: { type: String, default: '160px' },
+    width: { type: String, default: 'fit-content' },
   },
   setup() {
     return {}
@@ -45,7 +47,7 @@ export default defineComponent({
 <style scoped>
 .button {
   border: none;
-  border-radius: 60px;
+  border-radius: 4px;
   cursor: pointer;
   height: 100%;
   outline: none;
@@ -53,14 +55,22 @@ export default defineComponent({
 }
 
 .button.button--primary {
-  background-color: var(--pink-color);
+  background-color: var(--primary-color);
   color: #fff;
+}
+
+.button.button--secondary:focus,
+.button.button--secondary:hover,
+.button.button--primary:focus,
+.button.button--primary:hover {
+  filter: brightness(110%);
+  transition: filter 0.2s ease-in-out;
 }
 
 .button.button--secondary {
   background-color: #fff;
-  border: 1px solid var(--pink-color);
-  color: var(--pink-color);
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
 }
 
 .button-content-wrapper {
@@ -96,7 +106,7 @@ export default defineComponent({
   font-size: 1.286em;
 }
 
-.button-label-content.button--primary {
+.button-label-content.button-label-content--primary {
   font-weight: bold;
 }
 </style>
