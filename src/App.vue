@@ -17,11 +17,12 @@ export default defineComponent({
   --primary-color: #1976d2;
   --secondary-color: #26a69a;
 
-  font-size: 14px;
+  font-size: 16px;
 }
 
 * {
   box-sizing: border-box;
-  font-size: 1rem;
+  margin: 0;
+  padding: 0;
 }
 </style>
