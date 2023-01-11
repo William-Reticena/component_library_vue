@@ -1,6 +1,8 @@
 <template>
   <div>
-    <Button> <template #label> Hehehe </template> </Button>
+    <Button disabled @click="click">
+      <template #label> Hehehe </template>
+    </Button>
   </div>
 </template>
 
@@ -13,7 +15,11 @@ export default defineComponent({
     Button,
   },
   setup() {
-    return {}
+    const click = () => {
+      console.log('clicked')
+    }
+
+    return { click }
   },
 })
 </script>

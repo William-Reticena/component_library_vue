@@ -1,9 +1,9 @@
 <template>
-  <div class="button-container-wrapper" :style="{ height, width }">
-    <button class="button" :class="{ [`button--${variant}`]: variant }" :disabled="disabled || loading">
+  <div class="button-container-wrapper" :style="{ height, width: fullWidth ? '100%' : width }">
+    <button ref="buttonRef" class="button" :class="{ [`button--${variant}`]: variant }" :disabled="disabled || loading" @click="handleButtonClickEffect">
       <div class="button-content-wrapper">
         <div v-if="leftIcon" class="button-icon-container">
-          <!-- <img src="@/assets/Icons/mountLists.svg" alt="Ícone" class="button-icon" /> -->
+          <slot name="left-icon"></slot>
         </div>
 
         <span v-if="!loading" class="button-label-content" :class="{ [`button-label-content--${variant}`]: variant }">
@@ -11,19 +11,21 @@
         </span>
 
         <div v-if="rightIcon" class="button-icon-container">
-          <!-- <img src="@/assets/Icons/mountLists.svg" alt="Ícone" class="button-icon" /> -->
+          <slot name="right-icon"></slot>
         </div>
 
-        <!-- <div v-if="loading">
-          <q-circular-progress indeterminate size="20px" color="yellow-12" />
-        </div> -->
+        <div v-if="loading">
+          <span class="loader"></span>
+        </div>
+
+        <span v-show="clicked" ref="spanRippleRef" class="button-ripple"></span>
       </div>
     </button>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, ref } from 'vue'
 
 export default defineComponent({
   name: 'ButtonComponent',
@@ -39,7 +41,26 @@ export default defineComponent({
     width: { type: String, default: 'fit-content' },
   },
   setup() {
-    return {}
+    const buttonRef = ref<HTMLButtonElement | null>(null)
+    const spanRippleRef = ref<HTMLSpanElement | null>(null)
+    const clicked = ref(false)
+
+    const handleButtonClickEffect = (event: MouseEvent) => {
+      const x = event.clientX - spanRippleRef.value!.offsetLeft
+      const y = event.clientY - spanRippleRef.value!.offsetTop
+
+      spanRippleRef.value!.style.left = `${x}px`
+      spanRippleRef.value!.style.top = `${y}px`
+      clicked.value = true
+
+      setTimeout(() => {
+        clicked.value = false
+      }, 300)
+
+      buttonRef.value?.blur()
+    }
+
+    return { buttonRef, spanRippleRef, clicked, handleButtonClickEffect }
   },
 })
 </script>
@@ -50,8 +71,15 @@ export default defineComponent({
   border-radius: 4px;
   cursor: pointer;
   height: 100%;
+  overflow: hidden;
   outline: none;
+  position: relative;
   width: 100%;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .button.button--primary {
@@ -88,6 +116,17 @@ export default defineComponent({
   width: 1.715em;
 }
 
+.loader {
+  animation: loader-rotation 1s linear infinite;
+  border: 3px solid #fff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  box-sizing: border-box;
+  display: inline-block;
+  height: 30px;
+  width: 30px;
+}
+
 .button-icon-container:first-child {
   margin-left: 0;
 }
@@ -108,5 +147,38 @@ export default defineComponent({
 
 .button-label-content.button-label-content--primary {
   font-weight: bold;
+}
+
+.button-ripple {
+  animation: ripple 1s;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  height: 100px;
+  margin-left: -50px;
+  margin-top: -50px;
+  right: 0;
+  opacity: 0;
+  position: absolute;
+  width: 100px;
+}
+
+@keyframes ripple {
+  0% {
+    opacity: 1;
+    scale: 0;
+  }
+  100% {
+    opacity: 0;
+    scale: 10;
+  }
+}
+
+@keyframes loader-rotation {
+  0% {
+    rotate: 0deg;
+  }
+  100% {
+    rotate: 360deg;
+  }
 }
 </style>
