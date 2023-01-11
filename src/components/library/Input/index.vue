@@ -108,7 +108,6 @@ export default defineComponent({
     const handleAsyncUpdateModel = (currentValue: string) => {
       let i = 0
       inputValue.value = props.mask.replace(/#/g, () => currentValue[i++])
-      console.log(props.modelValue)
     }
 
     onMounted(initInput)
@@ -133,7 +132,6 @@ export default defineComponent({
 }
 
 .input-container-wrapper-inner {
-  background-color: #fff;
   box-sizing: border-box;
   display: flex;
   height: 100%;
@@ -142,14 +140,14 @@ export default defineComponent({
 }
 
 .input-container-wrapper-inner.input--rounded {
-  border: 1px solid var(--pink-color);
+  border: 1px solid var(--primary-color);
   border-radius: 60px;
 }
 
 .input-container-wrapper-inner.input--semi-rounded {
-  border: 1px solid var(--color-gray-dark);
+  border: 1px solid var(--primary-color);
   border-radius: 8px;
-  transition: border 0.3s ease-in;
+  transition: border 0.2s ease-in;
 }
 
 .input-container-wrapper-inner.input--semi-rounded.input-focused,
@@ -169,6 +167,7 @@ export default defineComponent({
 }
 
 .input {
+  background-color: transparent;
   border: none;
   height: 100%;
   outline: none;
