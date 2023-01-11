@@ -1,6 +1,6 @@
 <template>
   <div>
-    <InputComponent v-model="model" label="sddef" variant="semi-rounded" errorMessage="teste" error> </InputComponent>
+    <InputComponent v-model="model" label="sddef" disabled errorMessage="teste" error> </InputComponent>
     {{ model }}
   </div>
 </template>
@@ -25,11 +25,12 @@ export default defineComponent({
   --primary-color: #1976d2;
   --secondary-color: #26a69a;
 
-  font-size: 14px;
+  font-size: 16px;
 }
 
 * {
   box-sizing: border-box;
-  font-size: 1rem;
+  margin: 0;
+  padding: 0;
 }
 </style>

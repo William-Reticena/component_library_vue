@@ -1,8 +1,8 @@
 <template>
-  <div class="input-container-wrapper-outer" @click="inputRef?.focus()">
+  <div class="input-container-wrapper-outer" :style="{ width: fullWidth ? '100%' : 'fit-content' }" @click="inputRef?.focus()">
     <label :for="forLabel">{{ label }}</label>
 
-    <div class="input-container-wrapper-inner" :class="{ [`input--${variant}`]: variant, ...classNames }" :style="{ height, width }">
+    <div class="input-container-wrapper-inner" :class="{ [`input--${variant}`]: variant, ...classNames, 'input--disabled': disabled }" :style="{ height, width: fullWidth ? '100%' : width }">
       <div class="input-icon-container">
         <slot name="prepend"></slot>
       </div>
@@ -44,6 +44,7 @@ export default defineComponent({
     autofocus: { type: Boolean, default: false },
     disabled: { type: Boolean, default: false },
     error: { type: Boolean, default: false },
+    fullWidth: { type: Boolean, default: false },
     hideBottomSpace: { type: Boolean, default: false },
     readOnly: { type: Boolean, default: false },
     maxLength: { type: Number, default: -1 },
@@ -64,13 +65,14 @@ export default defineComponent({
     },
     modelValue: { type: String, default: '', required: true },
     type: { type: String as PropType<'text' | 'number'>, default: 'text' },
-    variant: { type: String as PropType<'rounded' | 'semi-rounded'>, default: 'rounded' },
+    variant: { type: String as PropType<'primary' | 'secondary'>, default: 'primary' },
     width: { type: String, default: '160px' },
   },
   setup(props, { emit }) {
     const forLabel = ref(props.for)
     const inputRef = ref<HTMLInputElement | null>(null)
     const inputValue = ref('')
+    const inputStates = ref({ focused: false, disabled: false })
     const classNames = ref({ 'input-focused': false })
 
     const initInput = () => {
@@ -139,20 +141,19 @@ export default defineComponent({
   width: 100%;
 }
 
-.input-container-wrapper-inner.input--rounded {
-  border: 1px solid var(--primary-color);
-  border-radius: 60px;
-}
-
-.input-container-wrapper-inner.input--semi-rounded {
-  border: 1px solid var(--primary-color);
+.input-container-wrapper-inner.input--primary {
+  border: 1px solid #e5e5e5;
   border-radius: 8px;
   transition: border 0.2s ease-in;
 }
 
-.input-container-wrapper-inner.input--semi-rounded.input-focused,
-.input-container-wrapper-inner.input--semi-rounded:hover {
+.input-container-wrapper-inner.input--primary.input-focused,
+.input-container-wrapper-inner.input--primary:hover {
   border: 1px solid var(--primary-color);
+}
+
+.input-container-wrapper-inner.input--primary.input--disabled:hover {
+  border: 1px solid #e5e5e5;
 }
 
 .input-icon-container {
@@ -173,6 +174,10 @@ export default defineComponent({
   outline: none;
   padding: 0 1em 0;
   width: 100%;
+}
+
+.input:disabled {
+  cursor: not-allowed;
 }
 
 .input-message-container {
