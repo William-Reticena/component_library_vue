@@ -1,6 +1,33 @@
 <template>
   <div>
-    <InputComponent v-model="model" label="sddef" disabled errorMessage="teste" error> </InputComponent>
+    <InputComponent
+      v-model="model"
+      label="sddef"
+      disabled
+      errorMessage="efrooswesdsadfsdfdfsdffk dsdfsdffgdfgedbdgbdgbdghfdghbfghbfghfghfgdfsdf fsdfsdfj lskdfjlksd lksdjflks djflksdjflk sjlksjflksdfjlkdslçfdjglkdfjlkdfglk dlfdglkdfglkdfgklg lkdflfdglkdfm dfmgvlk dfmldfdfgfd"
+      error
+    >
+    </InputComponent>
+    <InputComponent
+      v-model="model"
+      label="sddef"
+      disabled
+      errorMessage="efrooswesdsadfsdfdfsdffk dsdfsdffgdfgedbdgbdgbdghfdghbfghbfghfghfgdfsdf fsdfsdfj lskdfjlksd lksdjflks djflksdjflk sjlksjflksdfjlkdslçfdjglkdfjlkdfglk dlfdglkdfglkdfgklg lkdflfdglkdfm dfmgvlk dfmldfdfgfd"
+      error
+    >
+    </InputComponent>
+    {{ model }}
+  </div>
+
+  <div>
+    <InputComponent
+      v-model="model"
+      label="sddef"
+      disabled
+      errorMessage="efrooswesdsadfsdfdfsdffk dsdfsdffgdfgedbdgbdgbdghfdghbfghbfghfghfgdfsdf fsdfsdfj lskdfjlksd lksdjflks djflksdjflk sjlksjflksdfjlkdslçfdjglkdfjlkdfglk dlfdglkdfglkdfgklg lkdflfdglkdfm dfmgvlk dfmldfdfgfd"
+      error
+    >
+    </InputComponent>
     {{ model }}
   </div>
 </template>

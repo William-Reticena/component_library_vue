@@ -1,5 +1,5 @@
 <template>
-  <div class="input-container-wrapper-outer" :style="{ width: fullWidth ? '100%' : 'fit-content' }" @click="inputRef?.focus()">
+  <div class="input-container-wrapper-outer" :style="{ width: fullWidth ? '100%' : 'min-content' }" @click="inputRef?.focus()">
     <label :for="forLabel">{{ label }}</label>
 
     <div class="input-container-wrapper-inner" :class="{ [`input--${variant}`]: variant, ...classNames, 'input--disabled': disabled }" :style="{ height, width: fullWidth ? '100%' : width }">
