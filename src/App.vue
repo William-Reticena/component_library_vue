@@ -1,13 +1,30 @@
 <template>
-  <div></div>
+  <div>
+    <Select v-model:simple-v-model="simple" :options="options" error errorMessage="efvjhdbfhdf" />
+
+    {{ model }}
+    {{ simple }}
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
+import Select from './components/library/Select/index.vue'
 
 export default defineComponent({
+  components: {
+    Select,
+  },
   setup() {
-    return {}
+    const model = ref([])
+    const simple = ref('')
+    const options = ref(['one', 'two', 'three'])
+
+    setTimeout(() => {
+      simple.value = 'two'
+    })
+
+    return { model, simple, options }
   },
 })
 </script>
@@ -22,6 +39,7 @@ export default defineComponent({
 
 * {
   box-sizing: border-box;
-  font-size: 1rem;
+  padding: 0;
+  margin: 0;
 }
 </style>

@@ -5,7 +5,7 @@
     <div class="select-container-wrapper-inner">
       <div
         class="select-container-wrapper-content"
-        :class="{ [`select--${variant}`]: variant, 'select-focused': selectOpen }"
+        :class="{ [`select-container-wrapper-content--${variant}`]: variant, 'select--focused': selectOpen }"
         :style="{ height, width }"
         id="input-container"
         tabindex="-1"
@@ -18,7 +18,7 @@
         </div>
 
         <div class="select-container">
-          <input ref="inputRef" class="input" :id="id" v-model="inputValue" @blur="handleBlur" @mousedown="handleMouse" />
+          <input ref="inputRef" :autocomplete="autocomplete" class="input" :id="id" v-model="inputValue" @blur="handleBlur" @mousedown="handleMouse" />
         </div>
 
         <div class="select-icon-container">
@@ -26,57 +26,79 @@
         </div>
 
         <div class="select-arrow-container">
-          <span class="select-arrow" :class="{ 'select-open': selectOpen }"></span>
+          <svg
+            class="select-arrow"
+            :class="{ 'select--open': selectOpen }"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
         </div>
       </div>
 
       <div class="select-options-wrapper" :class="{ 'select-open': selectOpen }" id="options" tabindex="-1" @blur="handleBlur" @mousedown="handleMouse">
         <ul class="select-options-container">
-          <li v-for="(item, index) in optionsToDisplay" class="select-items" :key="index" @click="handleSelection(item)">{{ item }}</li>
+          <template v-if="!multiple">
+            <li v-for="(item, index) in optionsToDisplay" class="select-items" :key="index" @click="handleSelection(item)">{{ item }}</li>
+          </template>
+
+          <template v-else>
+            <li v-for="(item, index) in optionsToDisplayMultiple" class="select-items" :class="{ 'select-item--selected': item.selected }" :key="index" @click="handleSelectionMultiple(item)">
+              {{ item.item }}
+            </li>
+          </template>
         </ul>
       </div>
     </div>
 
     <div class="select-message-container">
-      <span class="select-message">dfçsfç</span>
+      <span class="select-message">{{ errorMessage }}</span>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, PropType, ref } from 'vue'
+import { computed, defineComponent, onMounted, PropType, ref, watch } from 'vue'
 
 export default defineComponent({
   name: 'SelectComponent',
   props: {
+    multipleVModel: { type: Array as PropType<number[] | string[]>, default: () => [] },
+    options: { type: Array as PropType<number[] | string[]>, default: () => [], required: true },
     error: { type: Boolean, default: false },
     multiple: { type: Boolean, default: false },
-    errorMessage: { type: String, default: '' },
     hideBottomSpace: { type: Boolean, default: false },
+    autocomplete: { type: String as PropType<'off' | 'on'>, default: 'off' },
+    errorMessage: { type: String, default: '' },
     id: { type: String, default: '' },
     height: { type: String, default: '42px' },
     label: { type: String, default: '' },
-    modelValue: { type: Object as PropType<number | number[] | string | string[]>, default: () => '' || [], required: true },
-    variant: { type: String as PropType<'rounded' | 'semi-rounded'>, default: 'rounded' },
+    simpleVModel: { type: String as PropType<number | string>, default: '' },
+    variant: { type: String as PropType<'primary' | 'secondary'>, default: 'primary' },
     width: { type: String, default: '160px' },
-    options: { type: Array as PropType<number[] | string[]>, default: () => [], required: true },
   },
   setup(props, { emit }) {
     const selectOpen = ref(false)
     const inputRef = ref<HTMLInputElement | null>()
     const inputValue = ref('')
-    const updateModel = ref<string | string[]>([])
+    const updateModel = ref<string | string[]>()
     let optionsShouldClose = false
     let enableSearch = true
 
     const initSelect = () => {
-      updateModel.value = typeof props.modelValue === 'object' ? [] : ''
-
-      if (props.modelValue !== '' || (typeof updateModel.value === 'object' && updateModel.value.length !== 0)) {
-        enableSearch = false
-
-        if (typeof props.modelValue === 'object') inputValue.value = (props.modelValue as string[]).join(', ')
-        else inputValue.value = props.modelValue as string
+      if (props.multiple) {
+        updateModel.value = props.multipleVModel as string[]
+        inputValue.value = (props.multipleVModel as string[]).join(', ')
+      } else {
+        updateModel.value = props.simpleVModel as string
+        inputValue.value = props.simpleVModel as string
       }
     }
 
@@ -92,32 +114,43 @@ export default defineComponent({
     }
 
     const handleSelection = (value: string | number) => {
+      enableSearch = false
       optionsShouldClose = true
 
-      if (props.multiple) {
-        if (updateModel.value.includes(value as string)) {
-          const index = (updateModel.value as string[]).indexOf(value as string)
-          ;(updateModel.value as string[]).splice(index, 1)
-        } else (updateModel.value as string[]).push(value as string)
+      updateModel.value = value as string
+      inputValue.value = value as string
+      selectOpen.value = false
 
-        inputValue.value = (updateModel.value as string[]).join(', ')
+      emit('update:simpleVModel', updateModel.value)
+    }
+
+    const handleSelectionMultiple = (value: { item: string; selected: boolean }) => {
+      optionsShouldClose = true
+
+      if (updateModel.value!.includes(value.item as string)) {
+        const index = (updateModel.value as string[]).indexOf(value.item as string)
+        ;(updateModel.value as string[]).splice(index, 1)
+        value.selected = false
       } else {
-        updateModel.value = value as string
-        inputValue.value = value as string
-        selectOpen.value = false
+        ;(updateModel.value as string[]).push(value.item as string)
+        value.selected = true
       }
 
-      emit('update:modelValue', updateModel.value)
+      inputValue.value = (updateModel.value as string[]).join(', ')
+      emit('update:multipleVModel', updateModel.value)
     }
 
     onMounted(initSelect)
 
     const optionsToDisplay = computed(() => {
+      if (!inputValue.value) enableSearch = true
       if (!enableSearch) return props.options
       else return inputValue.value ? (props.options as string[]).filter((option) => option.toLowerCase().includes(inputValue.value.toLowerCase())) : props.options
     })
 
-    return { inputValue, selectOpen, inputRef, handleBlur, handleFocus, handleMouse, handleSelection, optionsToDisplay }
+    const optionsToDisplayMultiple = computed(() => (props.options as string[]).map((option) => ({ item: option, selected: false })))
+
+    return { inputValue, selectOpen, inputRef, handleBlur, handleFocus, handleMouse, handleSelection, handleSelectionMultiple, optionsToDisplay, optionsToDisplayMultiple }
   },
 })
 </script>
@@ -138,14 +171,14 @@ export default defineComponent({
   width: 100%;
 }
 
-.select-container-wrapper-content.select--semi-rounded {
-  border: 1px solid var(--color-gray-dark);
+.select-container-wrapper-content.select-container-wrapper-content--primary {
+  border: 1px solid var(--primary-color);
   border-radius: 8px;
   transition: border 0.3s ease-in;
 }
 
-.select-container-wrapper-content.select--semi-rounded.select-focused,
-.select-container-wrapper-content.select--semi-rounded:hover {
+.select-container-wrapper-content.select-container-wrapper-content--primary.select--focused,
+.select-container-wrapper-content.select-container-wrapper-content--primary:hover {
   border: 1px solid var(--primary-color);
 }
 
@@ -183,18 +216,13 @@ export default defineComponent({
 }
 
 .select-arrow {
-  border-bottom: 2px solid var(--color-gray-dark);
-  border-right: 2px solid var(--color-gray-dark);
-  display: inline-block;
-  height: 0.7em;
-  rotate: 45deg;
   scale: 0.75;
+  stroke: var(--primary-color);
   transition: rotate 0.2s ease-in-out;
-  width: 0.7em;
 }
 
-.select-arrow.select-open {
-  rotate: 225deg;
+.select-arrow.select--open {
+  rotate: 180deg;
 }
 
 .select-options-wrapper {
@@ -240,12 +268,15 @@ export default defineComponent({
   background-color: #e6e6e6;
 }
 
+.select-item--selected {
+  color: var(--primary-color);
+}
+
 .select-message-container {
   color: red;
   height: 1.5em;
   padding: 0 1em 0;
   width: 100%;
-  z-index: -1;
 }
 
 .select-message {
