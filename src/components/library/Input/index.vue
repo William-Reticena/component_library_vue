@@ -72,7 +72,6 @@ export default defineComponent({
     const forLabel = ref(props.for)
     const inputRef = ref<HTMLInputElement | null>(null)
     const inputValue = ref('')
-    const inputStates = ref({ focused: false, disabled: false })
     const classNames = ref({ 'input-focused': false })
 
     const initInput = () => {
