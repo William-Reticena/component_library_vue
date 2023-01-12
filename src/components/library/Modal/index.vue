@@ -1,18 +1,26 @@
 <template>
   <template v-if="modelValue">
-    <teleport to="#portal-root">
+    <teleport to="#modal-root">
       <Backdrop @click.self="!preventClosing ? handleClose() : null">
         <div ref="modalRef" class="modal" :class="{ [`modal--${variant}`]: variant }" :style="{ height, width }" tabindex="-1">
-          <div v-if="!hideIcon" class="modal-close-button-container" :class="{ [`modal--${variant}`]: variant }">
+          <div v-if="!hideIcon" class="modal-close-button-container">
             <button class="modal-close-button" @click="!preventClosing ? handleClose() : null">
-              <img class="modal-close-button-icon" :class="{ [`modal--${variant}`]: variant }" src="@/assets/Icons/close.svg" alt="Fechar" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="feather feather-x"
+              >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
             </button>
-          </div>
-
-          <div v-if="variant === 'list-summary'" class="modal--list-summary-variant-container">
-            <div class="modal--list-summary-variant-backdrop">
-              <slot name="list-summary"></slot>
-            </div>
           </div>
 
           <div class="modal-content-container">
@@ -26,7 +34,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, onUnmounted, onUpdated, PropType, ref } from 'vue'
-import Backdrop from '@/components/Library/Backdrop/index.vue'
+import Backdrop from '../Backdrop/index.vue'
 
 export default defineComponent({
   name: 'ModalComponent',
@@ -35,9 +43,9 @@ export default defineComponent({
     hideIcon: { type: Boolean, default: false },
     modelValue: { type: Boolean, default: true, required: true },
     preventClosing: { type: Boolean, default: false },
-    height: { type: String, default: '70%' },
-    variant: { type: String as PropType<'default' | 'list-summary'>, default: 'default' },
-    width: { type: String, default: '60%' },
+    height: { type: String, default: '30%' },
+    variant: { type: String as PropType<'primary' | 'secondary'>, default: 'primary' },
+    width: { type: String, default: '30%' },
   },
   components: {
     Backdrop,
@@ -69,9 +77,11 @@ export default defineComponent({
 
 <style scoped>
 .modal {
-  background-color: var(--white-color);
-  border-radius: 40px;
+  background-color: white;
+  border-radius: 4px;
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+  max-height: (100% - 64px);
+  max-width: 600px;
   position: relative;
 }
 
@@ -79,17 +89,8 @@ export default defineComponent({
   outline: none;
 }
 
-.modal.modal--list-summary {
-  border-radius: 16px;
-}
-
 .modal-close-button-container {
   position: absolute;
-  right: 3em;
-  top: 3em;
-}
-
-.modal-close-button-container.modal--list-summary {
   right: 1.5em;
   top: 1.5em;
 }
@@ -108,29 +109,7 @@ export default defineComponent({
   width: 1.5em;
 }
 
-.modal-close-button-icon.modal--list-summary {
-  width: 1.25em;
-}
-
-.modal--list-summary-variant-container {
-  left: calc(50% - 2.77em);
-  position: absolute;
-  top: -2.75em;
-}
-
-.modal--list-summary-variant-backdrop {
-  background-color: var(--white-color);
-  border-radius: 50%;
-  padding: 0.3em;
-}
-
 .modal-content-container {
   height: 100%;
-}
-
-@media screen and (max-width: 1024px) {
-  .modal-close-button-icon {
-    width: 1.25em;
-  }
 }
 </style>

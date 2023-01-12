@@ -1,5 +1,5 @@
 <template>
-  <div class="back-drop">
+  <div class="backdrop" :style="{ backgroundColor: bgColor }">
     <slot></slot>
   </div>
 </template>
@@ -9,11 +9,14 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'BackdropComponent',
+  props: {
+    bgColor: { type: String, default: 'rgba(0, 0, 0, 0.5)' },
+  },
 })
 </script>
 
 <style scoped>
-.back-drop {
+.backdrop {
   align-items: center;
   background-color: var(--backdrop-color);
   display: flex;

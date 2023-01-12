@@ -1,13 +1,21 @@
 <template>
-  <div></div>
+  <div>
+    <Modal v-model="open"> </Modal>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
+import Modal from './components/library/Modal/index.vue'
 
 export default defineComponent({
+  components: {
+    Modal,
+  },
   setup() {
-    return {}
+    const open = ref(true)
+
+    return { open }
   },
 })
 </script>
@@ -22,6 +30,7 @@ export default defineComponent({
 
 * {
   box-sizing: border-box;
-  font-size: 1rem;
+  padding: 0;
+  margin: 0;
 }
 </style>
