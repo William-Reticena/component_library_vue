@@ -1,15 +1,19 @@
 <template>
-  <nav class="tabs-container-wrapper" :style="{ height: !vertical ? height : width, width: !vertical ? width : height }">
-    <ul class="tabs-container-items" :class="{ 'tabs-container-items--vertical': vertical }">
-      <li v-for="tab in tabs" :key="tab" class="tabs-item" :class="{ active: tabSelected === tab, 'tabs-item--vertical': vertical }" tabindex="0" @click="tabClick(tab)" @focus="handleFocus">
-        <span class="tabs-item-content"> {{ noCaps ? tab : tab.toLocaleUpperCase() }} </span>
-      </li>
-    </ul>
-  </nav>
+  <div class="tabs-container-wrapper" :style="{ justifyContent: align, height: !vertical ? height : width, width: !vertical ? width : height }">
+    <nav class="tabs-container-content" :style="{ width: align === 'justify' ? '100%' : '50%' }">
+      <ul class="tabs-container-items" :class="{ 'tabs-container-items--vertical': vertical }">
+        <!-- <li v-for="tab in tabs" :key="tab" class="tabs-item" :class="{ active: tabSelected === tab, 'tabs-item--vertical': vertical }" tabindex="0" @click="tabClick(tab)" @focus="handleFocus">
+          <span class="tabs-item-content"> {{ noCaps ? tab : tab.toLocaleUpperCase() }} </span>
+        </li> -->
+
+        <slot></slot>
+      </ul>
+    </nav>
+  </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, onUpdated, ref } from 'vue'
+import { computed, defineComponent, onMounted, onUpdated, PropType, ref } from 'vue'
 
 export default defineComponent({
   name: 'TabsComponent',
@@ -17,6 +21,7 @@ export default defineComponent({
     noCaps: { type: Boolean, default: false },
     vertical: { type: Boolean, default: false },
     height: { type: String, default: '3em' },
+    align: { type: String as PropType<'center' | 'justify' | 'left' | 'right'>, default: 'center' },
     modelValue: { type: String, default: '', required: true },
     width: { type: String, default: '100%' },
   },
@@ -53,22 +58,35 @@ export default defineComponent({
 
 <style scoped>
 .tabs-container-wrapper {
+  background-color: var(--primary-color);
   box-shadow: 0 1px 5px #0003, 0 2px 2px #00000024, 0 3px 1px -2px #0000001f;
-  position: relative;
+  display: flex;
+  width: 100%;
 }
+
+/* .tabs-container-content {
+  position: relative;
+} */
+
+.tabs-container-content {
+  display: flex;
+  /* width: 100%; */
+}
+
 .tabs-container-items {
   display: flex;
   height: 100%;
   list-style: none;
   margin: 0;
   padding: 0;
+  width: 100%;
 }
 
 .tabs-container-items.tabs-container-items--vertical {
   flex-direction: column;
 }
 
-.tabs-item {
+/* .tabs-item {
   align-items: center;
   background-color: #1976d2;
   color: white;
@@ -82,17 +100,17 @@ export default defineComponent({
 
 .tabs-item:hover {
   opacity: 0.8;
-}
+} */
 
-.tabs-item:focus {
+/* .tabs-item:focus {
   outline: none;
-}
+} */
 
 .tabs-item.tabs-item--vertical {
   height: 100%;
 }
 
-.tabs-item-content {
+/* .tabs-item-content {
   align-items: center;
   display: flex;
   height: 100%;
@@ -104,9 +122,9 @@ export default defineComponent({
   user-select: none;
   white-space: nowrap;
   width: 100%;
-}
+} */
 
-.active::before {
+/* .active::before {
   background-color: white;
   border-radius: 15px;
   bottom: 0;
@@ -115,7 +133,7 @@ export default defineComponent({
   height: 3px;
   position: absolute;
   width: v-bind(widthByTab);
-}
+} */
 
 .active.tabs-item--vertical::after {
   background-color: white;
