@@ -18,7 +18,7 @@
         </div>
 
         <div class="select-container">
-          <input ref="inputRef" :autocomplete="autocomplete" class="input" :id="id" v-model="inputValue" @blur="handleBlur" @mousedown="handleMouse" />
+          <input ref="inputRef" :autocomplete="autocomplete" class="input" :id="id" :readonly="readonly" v-model="inputValue" @blur="handleBlur" @mousedown="handleMouse" />
         </div>
 
         <div class="select-icon-container">
@@ -65,7 +65,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, PropType, ref, watch } from 'vue'
+import { computed, defineComponent, onMounted, PropType, ref } from 'vue'
 
 export default defineComponent({
   name: 'SelectComponent',
@@ -75,6 +75,7 @@ export default defineComponent({
     error: { type: Boolean, default: false },
     multiple: { type: Boolean, default: false },
     hideBottomSpace: { type: Boolean, default: false },
+    readonly: { type: Boolean, default: false },
     autocomplete: { type: String as PropType<'off' | 'on'>, default: 'off' },
     errorMessage: { type: String, default: '' },
     id: { type: String, default: '' },
