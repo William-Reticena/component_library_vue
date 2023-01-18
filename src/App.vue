@@ -1,13 +1,44 @@
 <template>
-  <div></div>
+  <div>
+    <ExpansionItem v-model="open" label="item a ser expandido">
+      <template #icon>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="feather feather-chevron-down"
+        >
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </template>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi dolorum corporis unde? Quos sed dolorem id accusantium sint aliquam recusandae corrupti expedita esse veritatis? Qui dolores quis
+      ullam quas nisi.
+    </ExpansionItem>
+
+    <div>udyfghjsdfhd</div>
+
+    {{ open }}
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
+import ExpansionItem from './components/library/ExpansionItem/index.vue'
 
 export default defineComponent({
+  components: {
+    ExpansionItem,
+  },
   setup() {
-    return {}
+    const open = ref(true)
+
+    return { open }
   },
 })
 </script>
@@ -16,12 +47,12 @@ export default defineComponent({
 :root {
   --primary-color: #1976d2;
   --secondary-color: #26a69a;
-
   font-size: 14px;
 }
 
 * {
   box-sizing: border-box;
-  font-size: 1rem;
+  padding: 0;
+  margin: 0;
 }
 </style>
