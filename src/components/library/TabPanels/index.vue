@@ -14,9 +14,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style scoped>
-.tab-panels-content {
-  border: 1px solid black;
-}
-</style>
