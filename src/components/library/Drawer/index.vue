@@ -1,9 +1,9 @@
 <template>
-  <div class="drawer-container-wrapper" :style="{ width: drawerOpened }">
+  <aside class="drawer-container-wrapper" :style="{ width: drawerOpened }">
     <div class="drawer-container">
-      <slot></slot>
+      <slot :width="width"></slot>
     </div>
-  </div>
+  </aside>
 </template>
 
 <script lang="ts">
