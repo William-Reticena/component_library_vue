@@ -6,7 +6,8 @@
 
 <script lang="ts">
 import { ComponentPublicInstance, defineComponent } from 'vue'
-import { AttrProps, ParentProps } from './helpers/interfaces'
+import { AttrProps } from './interfaces/attrProps'
+import { ParentProps } from './interfaces/parentProps'
 
 export default defineComponent({
   name: 'TabPanelComponent',

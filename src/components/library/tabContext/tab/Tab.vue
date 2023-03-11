@@ -14,8 +14,8 @@
 </template>
 
 <script lang="ts">
-import { ComponentPublicInstance, defineComponent, getCurrentInstance, inject, ref } from 'vue'
-import { ParentAttrs } from './helpers/interfaces'
+import { ComponentPublicInstance, defineComponent, inject, ref } from 'vue'
+import { ParentAttrs } from './interfaces/parentAttrs'
 
 export default defineComponent({
   name: 'TabComponent',
@@ -25,7 +25,6 @@ export default defineComponent({
   setup() {
     const tabRef = ref<HTMLDataListElement | null>(null)
     const tabInjectedProps = inject<(tabName: string) => void>('handleTabUpdateClick')
-    const parentInstance = getCurrentInstance()
 
     const handleTabChange = (tabName: string) => tabInjectedProps?.(tabName)
 
