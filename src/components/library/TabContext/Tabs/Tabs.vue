@@ -23,7 +23,7 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const tabSelected = ref(props.modelValue)
-    const tabs = ref<string[]>()
+    const tabs = ref<Array<string>>([])
 
     const handleTabUpdateClick = (tabName: string) => {
       tabSelected.value = tabName

@@ -18,10 +18,10 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import Tabs from '@/components/library/Tabs/Tabs.vue'
-import Tab from '@/components/library/Tab/Tab.vue'
-import TabPanel from '@/components/library/TabPanel/TabPanel.vue'
-import TabPanels from '@/components/library/TabPanels/TabPanels.vue'
+import Tabs from '@/components/library/TabContext/Tabs/Tabs.vue'
+import Tab from '@/components/library/TabContext/Tab/Tab.vue'
+import TabPanel from '@/components/library/TabContext/TabPanel/TabPanel.vue'
+import TabPanels from '@/components/library/TabContext/TabPanels/TabPanels.vue'
 
 export default defineComponent({
   components: {
