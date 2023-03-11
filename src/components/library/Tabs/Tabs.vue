@@ -1,7 +1,7 @@
 <template>
-  <div class="tabs-container-wrapper" :style="{ height, width: '100%' }">
-    <nav class="tabs-container-content" :style="{ justifyContent: align === 'justify' ? 'center' : align }">
-      <ul class="tabs-container-items" :class="{ 'tabs-container-items--vertical': vertical }" :style="{ width: align === 'justify' ? '100%' : 'auto' }">
+  <div class="tabs-container" :style="{ height, width: '100%' }">
+    <nav class="tabs-container__content" :style="{ justifyContent: align === 'justify' ? 'center' : align }">
+      <ul class="content-list" :class="{ 'content-list--vertical': vertical }" :style="{ width: align === 'justify' ? '100%' : 'auto' }">
         <slot></slot>
       </ul>
     </nav>
@@ -43,32 +43,31 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.tabs-container-wrapper {
+.tabs-container {
   background-color: var(--primary-color);
   box-shadow: 0 1px 5px #0003, 0 2px 2px #00000024, 0 3px 1px -2px #0000001f;
-  /* display: flex; */
   overflow: auto;
   width: 100%;
 }
 
-.tabs-container-wrapper::-webkit-scrollbar {
+.tabs-container::-webkit-scrollbar {
   display: none;
 }
 
-.tabs-container-content {
+.tabs-container__content {
   display: flex;
   height: 100%;
   width: 100%;
 }
 
-.tabs-container-items {
+.content-list {
   display: flex;
   height: 100%;
   list-style: none;
   width: 100%;
 }
 
-.tabs-container-items.tabs-container-items--vertical {
+.content-list.content-list--vertical {
   flex-direction: column;
 }
 

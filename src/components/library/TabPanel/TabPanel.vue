@@ -1,5 +1,5 @@
 <template>
-  <div v-show="currentPanelShown($parent, $attrs)">
+  <div class="tab-panel" v-show="currentPanelShown($parent, $attrs)">
     <slot></slot>
   </div>
 </template>
@@ -10,7 +10,6 @@ import { AttrProps, ParentProps } from './helpers/interfaces'
 
 export default defineComponent({
   name: 'TabPanelComponent',
-
   setup() {
     const currentPanelShown = (parent: ComponentPublicInstance | null, attrs: AttrProps) => {
       const parentProps = parent as ParentProps

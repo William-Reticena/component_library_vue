@@ -2,12 +2,12 @@
   <li
     ref="tabRef"
     class="tab-item"
-    :class="{ 'tab-item--active': handleActivationTab(name, $parent).actived, 'tab-item--justify': handleActivationTab(name, $parent).justify }"
+    :class="{ 'tab-item--active': handleActivationTab(name, $parent).active, 'tab-item--justify': handleActivationTab(name, $parent).justify }"
     tabindex="1"
     @click="handleTabChange(name)"
     @focus="handleTabChange(name)"
   >
-    <span class="tab-item-content">
+    <span class="tab-item__content">
       <slot></slot>
     </span>
   </li>
@@ -31,7 +31,7 @@ export default defineComponent({
 
     const handleActivationTab = (tabName: string, parentAttrs: ComponentPublicInstance | null) => {
       const parentAttr = parentAttrs as ParentAttrs
-      return { actived: tabName === parentAttr.modelValue, justify: parentAttr.align === 'justify' }
+      return { active: tabName === parentAttr.modelValue, justify: parentAttr.align === 'justify' }
     }
 
     return { tabRef, tabInjectedProps, handleTabChange, handleActivationTab }
@@ -75,7 +75,7 @@ export default defineComponent({
   min-width: none;
 }
 
-.tab-item-content {
+.tab-item__content {
   display: inline-block;
   height: min-content;
   overflow: hidden;

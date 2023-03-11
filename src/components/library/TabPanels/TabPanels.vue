@@ -1,5 +1,5 @@
 <template>
-  <div class="tab-panels-content">
+  <div class="tab-panels">
     <slot></slot>
   </div>
 </template>
