@@ -1,0 +1,14 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  color: var(--text-gray-color);
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+}
+
+@media (min-width: 768px) {
+  *, *::before, *::after {
+    font-size: var(--font-eighteen);
+  }
+}

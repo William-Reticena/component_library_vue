@@ -1,7 +1,7 @@
 <template>
   <div>
     <Tabs v-model="tab" align="left">
-      <Tab v-for="n in 4" :key="n" :name="'aba ' + n">Aba {{ n }}</Tab>
+      <Tab v-for="n in 5" :key="n" :name="'aba ' + n">Aba {{ n }}</Tab>
     </Tabs>
 
     <TabPanels v-model="tab">
@@ -9,6 +9,7 @@
       <TabPanel name="aba 2">Conteúdo da aba 2</TabPanel>
       <TabPanel name="aba 3">Conteúdo da aba 3</TabPanel>
       <TabPanel name="aba 4">Conteúdo da aba 4</TabPanel>
+      <TabPanel name="aba 5">Conteúdo da aba 5</TabPanel>
     </TabPanels>
 
     {{ tab }}
@@ -17,10 +18,10 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import Tabs from './components/library/Tabs/index.vue'
-import Tab from './components/library/Tab/index.vue'
-import TabPanel from './components/library/TabPanel/index.vue'
-import TabPanels from './components/library/TabPanels/index.vue'
+import Tabs from '@/components/library/Tabs/Tabs.vue'
+import Tab from '@/components/library/Tab/Tab.vue'
+import TabPanel from '@/components/library/TabPanel/TabPanel.vue'
+import TabPanels from '@/components/library/TabPanels/TabPanels.vue'
 
 export default defineComponent({
   components: {
@@ -42,15 +43,7 @@ export default defineComponent({
 </script>
 
 <style>
-:root {
-  --primary-color: #1976d2;
-  --secondary-color: #26a69a;
-  font-size: 14px;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
+@import url('@/styles/colors.css');
+@import url('@/styles/typography.css');
+@import url('@/styles/global.css');
 </style>
