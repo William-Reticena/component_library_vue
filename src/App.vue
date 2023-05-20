@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Typography variant="h1">teste</Typography>
+    <Typography variant="subtitle1">teste</Typography>
   </div>
 </template>
 
