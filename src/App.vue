@@ -1,11 +1,17 @@
 <template>
-  <div></div>
+  <div>
+    <Typography variant="h1">teste</Typography>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import Typography from './components/typography/Typography.vue'
 
 export default defineComponent({
+  components: {
+    Typography,
+  },
   setup() {
     return {}
   },
