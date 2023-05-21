@@ -1,4 +1,4 @@
-export const arrayFontSizes = [
+export const ArrayFontSizes = [
   {
     variant: 'h1',
     fontSize: 6,
@@ -39,14 +39,6 @@ export const arrayFontSizes = [
     variant: 'subtitle2',
     fontSize: 0.875,
   },
-  // {
-  //   variant: 'caption',
-  //   fontSize: 0.75,
-  // },
-  // {
-  //   variant: 'overline',
-  //   fontSize: 0.625,
-  // }
-
-  // 6, 3.75, 3, 2.125, 1.5, 1.25, 1.125
 ]
+
+export const UnitsMeasurement = /(em|%|rem|px)/
