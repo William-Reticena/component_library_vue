@@ -39,7 +39,7 @@ export default defineComponent({
   name: 'TypographyComponent',
   props: {
     noWrap: { type: Boolean, default: false },
-    fontShrinkRate: { type: Number, default: 0.2 },
+    fontShrinkRate: { type: Number, default: 0.2, validator: (value: number) => value >= 0 && value <= 1 },
     align: { type: String as PropType<AlignmentType>, default: 'inherit' },
     color: { type: String, default: 'var(--text-main-color)' },
     fontSize: { type: String },
