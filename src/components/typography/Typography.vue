@@ -1,19 +1,33 @@
 <template>
-  <h1 v-if="variant === 'h1'" :class="{ [`typography-variant__${variant}`]: !!variant, 'typography__no-wrap': noWrap }"><slot></slot></h1>
+  <h1 v-if="variant === 'h1'" :class="{ [`typography-variant__${variant}`]: !!variant, [`typography-variant-style__${variantStyle}`]: !!variantStyle, 'typography__no-wrap': noWrap }">
+    <slot></slot>
+  </h1>
 
-  <h2 v-else-if="variant === 'h2'" :class="{ [`typography-variant__${variant}`]: !!variant, 'typography__no-wrap': noWrap }"><slot></slot></h2>
+  <h2 v-else-if="variant === 'h2'" :class="{ [`typography-variant__${variant}`]: !!variant, [`typography-variant-style__${variantStyle}`]: !!variantStyle, 'typography__no-wrap': noWrap }">
+    <slot></slot>
+  </h2>
 
-  <h3 v-else-if="variant === 'h3'" :class="{ [`typography-variant__${variant}`]: !!variant, 'typography__no-wrap': noWrap }"><slot></slot></h3>
+  <h3 v-else-if="variant === 'h3'" :class="{ [`typography-variant__${variant}`]: !!variant, [`typography-variant-style__${variantStyle}`]: !!variantStyle, 'typography__no-wrap': noWrap }">
+    <slot></slot>
+  </h3>
 
-  <h4 v-else-if="variant === 'h4'" :class="{ [`typography-variant__${variant}`]: !!variant, 'typography__no-wrap': noWrap }"><slot></slot></h4>
+  <h4 v-else-if="variant === 'h4'" :class="{ [`typography-variant__${variant}`]: !!variant, [`typography-variant-style__${variantStyle}`]: !!variantStyle, 'typography__no-wrap': noWrap }">
+    <slot></slot>
+  </h4>
 
-  <h5 v-else-if="variant === 'h5'" :class="{ [`typography-variant__${variant}`]: !!variant, 'typography__no-wrap': noWrap }"><slot></slot></h5>
+  <h5 v-else-if="variant === 'h5'" :class="{ [`typography-variant__${variant}`]: !!variant, [`typography-variant-style__${variantStyle}`]: !!variantStyle, 'typography__no-wrap': noWrap }">
+    <slot></slot>
+  </h5>
 
-  <h6 v-else-if="variant === 'h6'" :class="{ [`typography-variant__${variant}`]: !!variant, 'typography__no-wrap': noWrap }"><slot></slot></h6>
+  <h6 v-else-if="variant === 'h6'" :class="{ [`typography-variant__${variant}`]: !!variant, [`typography-variant-style__${variantStyle}`]: !!variantStyle, 'typography__no-wrap': noWrap }">
+    <slot></slot>
+  </h6>
 
-  <p v-else-if="variant === 'paragraph'" :class="{ [`typography-variant__${variant}`]: !!variant, 'typography__no-wrap': noWrap }"><slot></slot></p>
+  <p v-else-if="variant === 'paragraph'" :class="{ [`typography-variant__${variant}`]: !!variant, [`typography-variant-style__${variantStyle}`]: !!variantStyle, 'typography__no-wrap': noWrap }">
+    <slot></slot>
+  </p>
 
-  <div v-else :class="{ [`typography-variant__${variant}`]: !!variant, 'typography__no-wrap': noWrap }"><slot></slot></div>
+  <div v-else :class="{ [`typography-variant__${variant}`]: !!variant, [`typography-variant-style__${variantStyle}`]: !!variantStyle, 'typography__no-wrap': noWrap }"><slot></slot></div>
 </template>
 
 <script lang="ts">
@@ -27,10 +41,10 @@ export default defineComponent({
     noWrap: { type: Boolean, default: false },
     fontShrinkRate: { type: Number, default: 0.2 },
     align: { type: String as PropType<AlignmentType>, default: 'inherit' },
-    color: { type: String, default: 'var(--main-font-color)' },
-    fontSize: { type: String, default: '' },
+    color: { type: String, default: 'var(--text-main-color)' },
+    fontSize: { type: String },
     variant: { type: String as PropType<VariantType>, default: 'body1' },
-    variantStyle: { type: String, default: '' },
+    variantStyle: { type: String },
   },
   setup(props) {
     const typographyFontSize = ref('1em')

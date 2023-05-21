@@ -1,6 +1,6 @@
 *, *::before, *::after {
   box-sizing: border-box;
-  color: var(--text-gray-color);
+  color: var(--text-main-color);
   /* font-size: 16px; */
   /* line-height: 1.5; */
   margin: 0;
