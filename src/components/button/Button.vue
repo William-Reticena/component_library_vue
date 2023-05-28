@@ -15,63 +15,33 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from 'vue'
-import { VariantType } from './types'
-import { keyframe, rule } from './utils/cssRules'
+import { computed, defineComponent, getCurrentInstance, ref } from 'vue'
+import { ButtonProps } from './types/ButtonProps'
 
 export default defineComponent({
   name: 'ButtonComponent',
-  props: {
-    fullWidth: { type: Boolean, default: false },
-    round: { type: Boolean, default: false },
-    rounded: { type: Boolean, default: false },
-    bgColor: {
-      type: String,
-      default: () => {
-        const bgColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-color')
-        return bgColor ? bgColor : '#1976d2'
-      },
-    },
-    color: {
-      type: String,
-      default: () => {
-        const color = getComputedStyle(document.documentElement).getPropertyValue('--text-main-color')
-        return color ? color : '#fff'
-      },
-    },
-    customStyle: { type: String },
-    label: { type: String, default: '' },
-    height: { type: String, default: '42px' },
-    variant: { type: String as PropType<VariantType>, default: 'contained' },
-    width: { type: String, default: 'unset' },
-  },
+  props: { ...ButtonProps },
   setup(props, { slots }) {
     const buttonRef = ref<HTMLButtonElement | null>(null)
     const buttonColor = computed(() => (props.variant === 'outlined' ? props.bgColor : props.color))
     const buttonBgColor = computed(() => (props.variant !== 'contained' ? 'transparent' : props.bgColor))
     const buttonWidth = computed(() => (props.fullWidth ? '100%' : props.width))
     const hasIcon = computed(() => ({ leftIcon: !!slots['left-icon'], rightIcon: !!slots['right-icon'] }))
+    const scopedId = getCurrentInstance()?.vnode.component?.proxy?.$options.__scopeId
 
     const handleButtonClickEffect = (event: MouseEvent) => {
-      const styleSheet = document.styleSheets[0]
-
-      styleSheet.insertRule(keyframe, styleSheet.cssRules.length)
-      styleSheet.insertRule(rule, styleSheet.cssRules.length)
-
       const span = document.createElement('span')
-      const rect = buttonRef.value?.getBoundingClientRect()
       span.classList.add('button-ripple')
+      span.setAttribute(`${scopedId}`, '')
+
+      const rect = buttonRef.value?.getBoundingClientRect()
 
       span.style.left = `${event.clientX - rect!.left}px`
       span.style.top = `${event.clientY - rect!.top}px`
 
       buttonRef.value?.appendChild(span)
 
-      setTimeout(() => {
-        buttonRef.value?.removeChild(span)
-        styleSheet.deleteRule(styleSheet.cssRules.length - 1)
-        styleSheet.deleteRule(styleSheet.cssRules.length - 1)
-      }, 500)
+      setTimeout(() => buttonRef.value?.removeChild(span), 500)
     }
 
     // function hexToRgb(hex: string) {
@@ -163,5 +133,30 @@ export default defineComponent({
 .button-label-content.outlined,
 .button-label-content.text {
   color: v-bind(buttonColor);
+}
+
+.button-ripple {
+  animation: ripple 1s;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  height: 100px;
+  margin-left: -50px;
+  margin-top: -50px;
+  right: 0;
+  opacity: 0;
+  position: absolute;
+  width: 100px;
+  z-index: -1;
+}
+
+@keyframes ripple {
+  0% {
+    opacity: 1;
+    scale: 0;
+  }
+  100% {
+    opacity: 0;
+    scale: 10;
+  }
 }
 </style>
